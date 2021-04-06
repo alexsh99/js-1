@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="catalog"></div>
+<script>
+    'use strict'
+    const Product = [
+        {
+            id: 6,
+            parentId: 1,
+            title: "Intel",
+        },
+        {
+            id: 1,
+            parentId: 0,
+            title: "Процессоры",
+        },
+        {
+            id: 2,
+            parentId: 0,
+            title: "Оперативная память",
+        },
+        {
+            id: 8,
+            parentId: 3,
+            title: "SSD",
+        },
+        {
+            id: 3,
+            parentId: 0,
+            title: "Жесткие диски",
+        },
+        {
+            id: 4,
+            parentId: 0,
+            title: "Материнские платы",
+        },
+        {
+            id: 5,
+            parentId: 1,
+            title: "AMD",
+        },
+        {
+            id: 7,
+            parentId: 3,
+            title: "HDD",
+        },
+        {
+            id: 17,
+            parentId: 7,
+            title: "3.5\"",
+        },
+        {
+            id: 18,
+            parentId: 7,
+            title: "2.5\"",
+        },
+    ];
+    const catalogDiv = document.getElementById('catalog');
+    catalogDiv.appendChild(generateCatalog(Product));
+
+    function generateCatalog(product) {
+        const catalog = document.createElement('ul');
+        for (let item of product)
+        {
+            let child = catalog.querySelector(`li[data-id="${item.id}"]`);
+
+            if (!child && item.parentId === 0){
+                child = createLi(item.title, item.id);
+                catalog.appendChild(child);
+            } else if (child && item.parentId === 0){
+                child.innerHTML = item.title + child.innerHTML;
+            } else if (item.parentId !== 0){
+                child = catalog.querySelector(`li[data-id="${item.parentId}"]`);
+                if (!child) {
+                    child = createLi('', item.parentId);
+                    catalog.appendChild(child);
+                }
+                const subChild = child.querySelector('ul') || createUl();
+                subChild.appendChild(createLi(item.title, item.id));
+                child.appendChild(subChild);
+            }
+        }
+        return catalog;
+    }
+
+
+    function createUl() {
+        return document.createElement('ul');
+    }
+
+    function createLi(title, id) {
+        const element = document.createElement('li');
+        element.textContent = title;
+        element.setAttribute('data-id', id);
+        return element;
+    }
+</script>
+</body>
+</html>
