@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Task 1 & 2</title>
+</head>
+<body>
+<div id="container">
+
+</div>
+<style>
+    #container {
+        width: 400px;
+        margin: 0 auto;
+    }
+
+    td {
+        width: 40px;
+        height: 40px;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 30px;
+    }
+</style>
+<script>
+    const containerElement = document.querySelector('#container');
+    containerElement.appendChild(chessBoard());
+
+    function chessBoard() {
+        const board = document.createElement('table');
+        board.style.borderSpacing = '0';
+        for (let row = 0; row < 9; row++) {
+            const trElem = document.createElement('tr');
+            board.appendChild(trElem);
+
+            for (let col = 0; col < 9; col++) {
+                const cell = document.createElement('td');
+                if (row === 8 && col > 0) {
+                    cell.innerText = String.fromCharCode(col + 64);
+                }
+                if (col === 0 && row < 8) {
+                    cell.innerText = String(8 - row);
+                }
+                if (col > 0 && row < 8) {
+                    if ((col % 2 === 0 && row % 2 === 0) || (col % 2 === 1 && row % 2 === 1)) {
+                        cell.style.backgroundColor = '#b58863';
+                    } else if (col > 0) {
+                        cell.style.backgroundColor = '#f0d9b5';
+                    }
+                }
+                trElem.appendChild(cell);
+            }
+        }
+        return fillBoard(board);
+    }
+
+    function fillBoard(board) {
+        console.log(board.childNodes[0]);
+        const wF = ['&#9814;', '&#9816;', '&#9815;', '&#9813;', '&#9812;', '&#9815;', '&#9816', '&#9814;'];
+        const bF = ['&#9820;', '&#9822;', '&#9821;', '&#9819;', '&#9818;', '&#9821;', '&#9822;', '&#9820;'];
+        const wP = '&#9817;';
+        const bP = '&#9823;';
+
+        for (let figure in wF){
+            let ind = +figure + 1;
+            board.childNodes[7].childNodes[ind].innerHTML = wF[figure];
+            board.childNodes[6].childNodes[ind].innerHTML = wP;
+            board.childNodes[0].childNodes[ind].innerHTML = bF[figure];
+            board.childNodes[1].childNodes[ind].innerHTML = bP;
+        }
+        return board;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Task_3</title>
+</head>
+<body>
+<div id="basket">
+
+</div>
+<script>
+    'use strict'
+    const basketDiv = document.querySelector('#basket');
+
+    const product_1 = {
+        name: "Жесткий диск HDD",
+        price: 5700,
+        count: 2
+    }
+
+    const product_2 = {
+        name: "Оперативная память",
+        price: 2500,
+        count: 4
+    }
+
+    const product_3 = {
+        name: "Процессор",
+        price: 17500,
+        count: 1
+    }
+
+    const basket = {
+        product: [],
+        addProduct(p){
+            this.product.push(p);
+        },
+        basketPrice() {
+            return this.product.reduce(function (total, item) {
+                return total + (item.price * item.count);
+            }, 0);
+        },
+        productCount() {
+            return this.product.reduce(function (total, item) {
+                return total + item.count;
+            }, 0);
+        },
+        getTextBasketState(){
+            let goodsCount = this.productCount();
+            if (goodsCount > 0) {
+                return `В корзине: ${goodsCount} товаров на сумму ${this.basketPrice()} рублей`;
+            }
+            return 'Корзина пуста';
+        }
+    }
+
+    //
+    // basket.addProduct(product_1);
+    // basket.addProduct(product_2);
+    basket.addProduct(product_3);
+
+    basketDiv.textContent = basket.getTextBasketState();
+
+</script>
+</body>
+</html>
